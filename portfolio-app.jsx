@@ -81,8 +81,7 @@ function RecordPlayer() {
   const [artMap, setArtMap]   = useState({});
   const [idx, setIdx]         = useState(0);
   const [playing, setPlaying] = useState(false);
-  const playerRef = useRef(null);
-  const containerRef = useRef(null);
+  const [iframeSrc, setIframeSrc] = useState('');
   const n = RECORD_TRACKS.length;
 
   // Spotify oEmbed — album art only (skips tracks without a Spotify ID)
@@ -96,48 +95,19 @@ function RecordPlayer() {
     });
   }, []);
 
-  // Load YouTube IFrame API (returns a promise that resolves when ready)
-  const loadYouTubeAPI = () => {
-    if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
-    if (window._ytApiLoading) return window._ytApiLoading;
-    window._ytApiLoading = new Promise((resolve) => {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      const first = document.getElementsByTagName('script')[0];
-      first.parentNode.insertBefore(tag, first);
-      window.onYouTubeIframeAPIReady = () => resolve(window.YT);
-    });
-    return window._ytApiLoading;
-  };
-
-  const [playerReady, setPlayerReady] = useState(false);
-
-  // Create player once and reuse it. Keep it visually hidden.
-  useEffect(() => {
-    let mounted = true;
-    loadYouTubeAPI().then((YT) => {
-      if (!mounted) return;
-      if (playerRef.current) return;
-      playerRef.current = new YT.Player(containerRef.current, {
-        height: '0', width: '0', videoId: RECORD_TRACKS[idx].ytId || '',
-        playerVars: { playsinline: 1 },
-        events: {
-          onReady: () => setPlayerReady(true),
-        },
-      });
-    }).catch(() => {});
-    return () => { mounted = false; if (playerRef.current && playerRef.current.destroy) playerRef.current.destroy(); };
-  }, []);
-
   const track = RECORD_TRACKS[idx];
   const art   = artMap[track.id];
 
+  const getIframeSrc = (ytId) => {
+    if (!ytId) return '';
+    return `https://www.youtube.com/embed/${ytId}?autoplay=1&playsinline=1&mute=0&rel=0&enablejsapi=0`;
+  };
+
   const togglePlayback = () => {
-    const player = playerRef.current;
-    if (player && playerReady) {
-      try {
-        if (playing) player.pauseVideo(); else player.playVideo();
-      } catch (e) {}
+    if (!playing) {
+      setIframeSrc(getIframeSrc(track.ytId));
+    } else {
+      setIframeSrc('');
     }
     setPlaying(p => !p);
   };
@@ -147,32 +117,37 @@ function RecordPlayer() {
       const next = (i + dir + n) % n;
       return next;
     });
+    if (playing) {
+      setIframeSrc(getIframeSrc(RECORD_TRACKS[(idx + dir + n) % n].ytId));
+    }
   };
 
-  // When index changes and the player is ready, load the new video.
   useEffect(() => {
-    const player = playerRef.current;
-    if (!player || !playerReady) return;
-    if (track.ytId) {
-      try {
-        player.loadVideoById(track.ytId);
-        if (playing && player.playVideo) player.playVideo();
-      } catch (e) {}
+    if (playing) {
+      setIframeSrc(getIframeSrc(track.ytId));
     }
-  }, [idx, playerReady]);
-
-  // Keep playback in sync with the play state once the player is ready.
-  useEffect(() => {
-    const player = playerRef.current;
-    if (!player || !playerReady) return;
-    try {
-      if (playing) player.playVideo(); else player.pauseVideo();
-    } catch (e) {}
-  }, [playing, playerReady]);
+  }, [idx]);
 
   return (
     <div className="lp-record">
-      <div ref={containerRef} style={{position: 'fixed', left: -9999, top: -9999}} />
+      {iframeSrc && (
+        <iframe
+          key={iframeSrc}
+          src={iframeSrc}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            right: 0,
+            width: 1,
+            height: 1,
+            opacity: 0,
+            pointerEvents: 'none',
+          }}
+          title="Record player audio"
+        />
+      )}
       <div className="lp-record-row">
         <button className="lp-record-nav" onClick={() => goTo(-1)} aria-label="Previous track">
           &#8249;
