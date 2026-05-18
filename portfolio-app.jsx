@@ -110,6 +110,8 @@ function RecordPlayer() {
     return window._ytApiLoading;
   };
 
+  const [playerReady, setPlayerReady] = useState(false);
+
   // Create player once and reuse it. Keep it visually hidden.
   useEffect(() => {
     let mounted = true;
@@ -120,7 +122,7 @@ function RecordPlayer() {
         height: '0', width: '0', videoId: RECORD_TRACKS[idx].ytId || '',
         playerVars: { playsinline: 1 },
         events: {
-          onReady: () => {},
+          onReady: () => setPlayerReady(true),
         },
       });
     }).catch(() => {});
@@ -130,6 +132,16 @@ function RecordPlayer() {
   const track = RECORD_TRACKS[idx];
   const art   = artMap[track.id];
 
+  const togglePlayback = () => {
+    const player = playerRef.current;
+    if (player && playerReady) {
+      try {
+        if (playing) player.pauseVideo(); else player.playVideo();
+      } catch (e) {}
+    }
+    setPlaying(p => !p);
+  };
+
   const goTo = (dir) => {
     setIdx(i => {
       const next = (i + dir + n) % n;
@@ -137,26 +149,26 @@ function RecordPlayer() {
     });
   };
 
-  // When index changes, load the new video into the player.
+  // When index changes and the player is ready, load the new video.
   useEffect(() => {
     const player = playerRef.current;
-    if (!player) return;
+    if (!player || !playerReady) return;
     if (track.ytId) {
       try {
         player.loadVideoById(track.ytId);
         if (playing && player.playVideo) player.playVideo();
       } catch (e) {}
     }
-  }, [idx]);
+  }, [idx, playerReady]);
 
-  // Play/pause in response to user click — using the API is more reliable than autoplay on iframe
+  // Keep playback in sync with the play state once the player is ready.
   useEffect(() => {
     const player = playerRef.current;
-    if (!player) return;
+    if (!player || !playerReady) return;
     try {
       if (playing) player.playVideo(); else player.pauseVideo();
     } catch (e) {}
-  }, [playing]);
+  }, [playing, playerReady]);
 
   return (
     <div className="lp-record">
@@ -167,7 +179,7 @@ function RecordPlayer() {
         </button>
         <button
           className="lp-record-disc-btn"
-          onClick={() => setPlaying(p => !p)}
+          onClick={togglePlayback}
           aria-label={playing ? 'Pause' : 'Play'}
         >
           <div
