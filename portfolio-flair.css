@@ -1,0 +1,612 @@
+/* Flair styles for Personal Portfolio: bespoke project thumbs, marginalia, terminal strip */
+
+/* ───────────── Project thumb container tweaks ───────────── */
+.lp-card-img-flair {
+  display: block;
+  position: relative;
+  isolation: isolate;
+}
+.lp-card-img-flair .thumb {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  color: rgba(255,255,255,0.92);
+}
+.lp-card-img-flair .thumb-pin {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: rgba(255,255,255,0.62);
+  background: rgba(0,0,0,0.28);
+  padding: 3px 7px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.lp-card-img-flair .thumb-pin-light {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.78);
+}
+
+/* Bring forward the bg slightly on hover */
+.lp-card:hover .lp-card-img-flair { box-shadow: var(--shadow); }
+
+/* ───────────── rv-mini thumbnail ───────────── */
+.thumb-rv {
+  font-size: 9px;
+  line-height: 1.35;
+  padding: 14px 12px 12px;
+  display: flex;
+  gap: 10px;
+  background:
+    radial-gradient(140% 90% at 0% 0%, rgba(120,180,255,0.18), transparent 60%);
+}
+.thumb-rv-scroll {
+  flex: 1;
+  min-width: 0;
+  animation: thumb-rv-scroll 9s linear infinite;
+}
+@keyframes thumb-rv-scroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+.thumb-rv-line {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.55);
+  padding: 1px 0;
+}
+.thumb-rv-line[data-active] {
+  color: #aee4ff;
+  background: rgba(106, 180, 255, 0.16);
+  border-left: 2px solid #6ab4ff;
+  margin-left: -6px;
+  padding-left: 4px;
+}
+.thumb-rv-addr { color: rgba(160,200,240,0.55); }
+.thumb-rv-op   { color: #b8d6ff; font-weight: 500; min-width: 40px; }
+.thumb-rv-args { color: rgba(255,255,255,0.72); }
+
+.thumb-rv-regs {
+  width: 88px;
+  flex-shrink: 0;
+  border-left: 1px dashed rgba(255,255,255,0.18);
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 8.5px;
+  color: rgba(255,255,255,0.7);
+}
+.thumb-rv-regs-h {
+  color: rgba(150,200,255,0.55);
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+.thumb-rv-reg {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+.thumb-rv-reg span:first-child {
+  color: #b8d6ff;
+}
+
+/* ───────────── scheduler thumbnail ───────────── */
+.thumb-cal {
+  padding: 26px 12px 22px;
+  display: flex;
+  flex-direction: column;
+}
+.thumb-cal-head {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.18em;
+  margin-bottom: 6px;
+  padding: 0 1px;
+}
+.thumb-cal-head span { text-align: center; }
+.thumb-cal-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+  position: relative;
+}
+.thumb-cal-cell {
+  background: rgba(255,255,255,0.04);
+  border-radius: 2px;
+}
+.thumb-cal-block {
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: flex-start;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+.thumb-cal-block span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+/* ───────────── FFT thumbnail ───────────── */
+.thumb-fft {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), transparent 40%),
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent 16%,
+      rgba(255,255,255,0.04) 16%,
+      rgba(255,255,255,0.04) 16.5%);
+}
+.thumb-fft-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.thumb-fft-axis {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 8.5px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.1em;
+}
+
+/* ───────────── PCB thumbnail ───────────── */
+.thumb-pcb {
+  background:
+    radial-gradient(120% 80% at 50% 50%, rgba(58,90,55,0.0), rgba(0,0,0,0.25)),
+    linear-gradient(135deg, #2c4a2c 0%, #1e361e 100%);
+}
+.thumb-pcb-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ───────────── DOOM/LFS thumbnail ───────────── */
+.thumb-doom {
+  background: #0a0a0a;
+  padding: 10px 12px;
+}
+.thumb-doom-pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1.45;
+  color: #6dd970;
+  text-shadow: 0 0 4px rgba(109,217,112,0.45);
+  white-space: pre;
+  position: relative;
+}
+.thumb-doom-blink {
+  display: inline-block;
+  background: #6dd970;
+  color: #0a0a0a;
+  width: 6px;
+  text-align: center;
+  animation: thumb-doom-blink 1s steps(2, start) infinite;
+}
+@keyframes thumb-doom-blink { 50% { opacity: 0; } }
+.thumb-doom-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.0) 0px,
+    rgba(255,255,255,0.0) 2px,
+    rgba(0,0,0,0.18) 2px,
+    rgba(0,0,0,0.18) 3px
+  );
+  pointer-events: none;
+}
+.thumb-doom-logo {
+  position: absolute;
+  right: 14px;
+  bottom: 24px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  color: #ff5a3a;
+  text-shadow: 0 0 12px rgba(255,90,58,0.55), 2px 2px 0 rgba(0,0,0,0.4);
+  transform: skewX(-6deg);
+}
+
+/* ───────────── LSM thumbnail ───────────── */
+.thumb-lsm {
+  padding: 14px 12px;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.18) 100%);
+}
+.thumb-lsm-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.thumb-lsm-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 14px;
+}
+.thumb-lsm-label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  width: 46px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em;
+}
+.thumb-lsm-bar,
+.thumb-lsm-seg {
+  height: 9px;
+  border-radius: 2px;
+  background: #7adcd0;
+  opacity: 0.5;
+}
+.thumb-lsm-mem .thumb-lsm-bar {
+  background: rgba(255,255,255,0.85);
+  opacity: 0.95;
+  position: relative;
+  overflow: hidden;
+}
+.thumb-lsm-mem .thumb-lsm-bar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(122,220,208,0.8), transparent);
+  animation: thumb-lsm-fill 2.4s ease-in-out infinite;
+}
+@keyframes thumb-lsm-fill {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+.thumb-lsm-row[data-level="0"] .thumb-lsm-seg { background: #7adcd0; opacity: 0.65; }
+.thumb-lsm-row[data-level="1"] .thumb-lsm-seg { background: #5ac0b8; opacity: 0.75; }
+.thumb-lsm-row[data-level="2"] .thumb-lsm-seg { background: #3a9890; opacity: 0.85; }
+.thumb-lsm-flow {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: rgba(255,255,255,0.55);
+}
+.thumb-lsm-flow span:nth-child(2) { font-size: 13px; line-height: 0.9; color: #7adcd0; }
+
+/* ───────────── C++ thumbnail ───────────── */
+.thumb-cpp {
+  padding: 16px 14px;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(168,168,255,0.18), transparent 60%);
+}
+.thumb-cpp-pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.55;
+  white-space: pre;
+  color: rgba(255,255,255,0.82);
+}
+.thumb-cpp .cl-c { color: rgba(168,168,255,0.55); font-style: italic; }
+.thumb-cpp .cl-k { color: #c4a8ff; }
+.thumb-cpp .cl-t { color: #a8a8ff; }
+.thumb-cpp .cl-p { color: rgba(255,255,255,0.5); }
+
+/* ───────────── Newsletter thumbnail ───────────── */
+.thumb-mail {
+  background:
+    radial-gradient(120% 80% at 80% 20%, rgba(255,154,138,0.18), transparent 60%);
+}
+.thumb-mail-paper {
+  position: absolute;
+  left: 22%;
+  right: 8%;
+  top: 14%;
+  bottom: 30%;
+  background: #faf3e7;
+  border: 1px solid #d8c9ac;
+  box-shadow: 2px 4px 0 rgba(0,0,0,0.18);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: rotate(-3deg);
+}
+.thumb-mail-line {
+  height: 3px;
+  background: #b39873;
+  opacity: 0.6;
+  border-radius: 1px;
+}
+.thumb-mail-line:first-child {
+  background: #8c2a1c;
+  opacity: 0.85;
+  height: 4px;
+}
+.thumb-mail-env {
+  position: absolute;
+  left: 8%;
+  bottom: 16%;
+  width: 65%;
+  height: 50%;
+  background: linear-gradient(135deg, #f5d1c5 0%, #e0a59a 100%);
+  border: 1px solid rgba(0,0,0,0.18);
+  box-shadow: 3px 6px 0 rgba(0,0,0,0.22);
+  transform: rotate(4deg);
+}
+.thumb-mail-flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 55%;
+  background: linear-gradient(180deg, #f0bcae 0%, #d18d80 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.thumb-mail-stamp {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 26px;
+  background: #8c2a1c;
+  color: #f8e9cf;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  border: 2px solid #f8e9cf;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+}
+
+/* ───────────── Marginalia (handwritten side-notes) ───────────── */
+.lp-margin {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.0;
+  color: var(--hue-3);
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+  transform: rotate(var(--rot, -4deg));
+  transform-origin: left top;
+}
+.lp-margin-text {
+  display: inline-block;
+  padding-top: 6px;
+}
+.lp-margin-right { right: -180px; }
+.lp-margin-left  { left: -180px; flex-direction: row-reverse; }
+.lp-margin-arrow {
+  width: 56px;
+  height: 38px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.lp-margin-left .lp-margin-arrow { transform: scaleX(-1); }
+
+@media (max-width: 1180px) {
+  .lp-margin { display: none; }
+}
+
+/* ───────────── Terminal strip (top of main) ───────────── */
+.lp-term {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-2);
+  letter-spacing: 0.02em;
+  width: fit-content;
+  max-width: min(440px, 100%);
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.02),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.lp-term-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+.lp-term-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--line-2);
+}
+.lp-term-dots span:nth-child(1) { background: #f08a4a; }
+.lp-term-dots span:nth-child(2) { background: #f0c065; }
+.lp-term-dots span:nth-child(3) { background: #6ec890; }
+.lp-term-prompt { color: var(--muted); }
+.lp-term-arrow { color: var(--accent); font-weight: 600; }
+.lp-term-text {
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+.lp-term-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 12px;
+  background: var(--accent);
+  margin-left: -4px;
+  animation: lp-term-cursor 1s steps(2, start) infinite;
+}
+@keyframes lp-term-cursor { 50% { opacity: 0; } }
+
+/* Sit above the hero, beneath the top-right cluster */
+.lp-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.lp-hero-eyebrow .lp-hero-tags {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lp-hero-eyebrow .lp-hero-tags span:not(:first-child)::before {
+  content: '·';
+  margin-right: 4px;
+  color: var(--subtle);
+}
+
+/* ───────────── Hero name flourishes ───────────── */
+.lp-hero-term {
+  margin-bottom: 22px;
+}
+.lp-h1-wrap {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+.lp-h1-cursor {
+  display: inline-block;
+  width: 4px;
+  height: 0.85em;
+  background: var(--hue-0);
+  vertical-align: -0.08em;
+  margin-left: 6px;
+  animation: lp-term-cursor 1.1s steps(2, start) infinite;
+  border-radius: 1px;
+}
+.lp-h1-sparkle {
+  position: absolute;
+  top: -2px;
+  right: -22px;
+  color: var(--hue-4);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  animation: lp-sparkle 3.4s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes lp-sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg);   opacity: 0.9; }
+  50%      { transform: scale(1.25) rotate(40deg); opacity: 1; }
+}
+
+/* ───────────── Brand mark — clickable easter egg ───────────── */
+.lp-brand-mark {
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(.2,.7,.3,1);
+}
+.lp-brand-mark:hover {
+  transform: rotate(-8deg) scale(1.05);
+}
+.lp-brand-mark[data-spin] {
+  animation: lp-brand-spin 0.85s cubic-bezier(.2,.7,.3,1);
+}
+@keyframes lp-brand-spin {
+  0%   { transform: rotate(0deg)   scale(1); }
+  40%  { transform: rotate(380deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.lp-confetti {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  animation: lp-confetti 1.1s ease-out forwards;
+}
+@keyframes lp-confetti {
+  0%   { transform: translate(-50%, -50%) translate(0,0) rotate(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--cx,0px), var(--cy,140px)) rotate(var(--rt,180deg)); opacity: 0; }
+}
+
+/* ───────────── Project filters: tiny live count ───────────── */
+.lp-card { position: relative; }
+.lp-card-tape {
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--hue-4);
+  color: #1a1a1a;
+  padding: 3px 8px;
+  border-radius: 2px;
+  transform: rotate(-2deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.lp-card-tape[data-kind="building"] { background: var(--hue-2); color: #fff; }
+.lp-card-tape[data-kind="shipped"]  { background: var(--hue-1); color: #fff; }
+.lp-card-tape[data-kind="won"]      { background: var(--hue-3); color: #fff; }
+.lp-card-tape[data-kind="archive"]  { background: var(--surface-2); color: var(--muted); }
+
+/* Slightly fancier card hover */
+.lp-card:hover .lp-card-img-flair {
+  transform: translateY(-3px) rotate(-0.4deg);
+}
+.lp-card:hover .lp-card-tape {
+  transform: rotate(-4deg) translateY(-1px);
+}
+
+/* ───────────── Hand-drawn highlight under "i build close to the metal" ───────────── */
+.lp-hl-hand {
+  background: none !important;
+  position: relative;
+  padding: 0 2px;
+  margin: 0;
+  white-space: nowrap;
+  display: inline-block;
+}
+.lp-hl-hand-svg {
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: -10px;
+  width: calc(100% + 8px);
+  height: 14px;
+  pointer-events: none;
+  overflow: visible;
+}
+.lp-hl-hand-svg path {
+  stroke: var(--hue-0);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0.78;
+}

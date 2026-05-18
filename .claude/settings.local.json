@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest bookshelf --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install *)",
+      "Bash(node -e \"const p = require\\('./node_modules/next/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('C:/Users/aweso/OneDrive/Documents/Portfolio/bookshelf/node_modules/tailwindcss/package.json'\\).version\\)\")",
+      "Bash(npx next *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(Remove-Item -Recurse -Force \"C:\\\\Users\\\\aweso\\\\OneDrive\\\\Documents\\\\Portfolio\\\\bookshelf\")",
+      "Bash(npm init *)",
+      "Bash(npx playwright *)",
+      "Bash(claude plugins *)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(cp \"C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-flair.jsx\" \"C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-flair.jsx\")",
+      "Bash(cp \"C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-app.jsx\" \"C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-app.jsx\")",
+      "Bash(cp \"C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio.css\" \"C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio.css\")",
+      "Bash(cp \"C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-flair.css\" \"C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-flair.css\")",
+      "Bash(node --input-type=module)",
+      "Bash(cp C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-data.jsx C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-data.jsx)",
+      "Bash(cp C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-projects.jsx C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-projects.jsx)",
+      "Bash(cp C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-flair.jsx C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-flair.jsx)",
+      "Bash(cp C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio-app.jsx C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio-app.jsx)",
+      "Bash(cp C:/Users/aweso/AppData/Local/Temp/design_extract/personal-portfolio/project/portfolio.css C:/Users/aweso/OneDrive/Documents/Portfolio/portfolio.css)"
+    ]
+  }
+}
