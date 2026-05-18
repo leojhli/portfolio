@@ -59,117 +59,51 @@ function TopRight({ theme, setTheme, onCmdK }) {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// Record player — spinning vinyl, real album art via Spotify oEmbed (no auth)
+// Now playing — spinning vinyl, spotify-flavoured
 // ────────────────────────────────────────────────────────────────────────────
-const RECORD_TRACKS = [
-  { id: '047fCsbO4NdmwCBn8pcUXl', ytId: 'JDb3ZZD4bA0', title: 'Marvins Room',       artist: 'Drake'                },
-  { id: '0GaBIpyHvytM1UBYmqXu08', ytId: 'CikjiSG8eRM', title: 'From Time',          artist: 'Drake, Jhene Aiko'   },
-  { id: '6Z01gUquJsjJC67uNWm6P0', ytId: 'wc7JPaRV5uU', title: 'Shot For Me',        artist: 'Drake'                },
-  { id: '7JXZq0JgG2zTrSOAgY8VMC', ytId: 'AfRdRXCo3IU', title: 'Jungle',             artist: 'Drake'                },
-  { id: '6G9XqMGLEFMqHWkTIOY3Nd', ytId: 'lG4HICGeQoo', title: 'Come and See Me',    artist: 'PARTYNEXTDOOR, Drake' },
-  { id: '2rFqkDRJlumT7QjljlldlR', ytId: 'Q4SRlZtuHoQ', title: 'LOYAL',              artist: 'PARTYNEXTDOOR, Drake' },
-  { id: '',                        ytId: 'lXYq9ImJIN8', title: 'Break from Toronto', artist: 'Drake'                },
-  { id: '',                        ytId: '-zzP29emgpg', title: 'Take Care',          artist: 'Drake, Rihanna'       },
-  { id: '',                        ytId: 'zhY_0DoQCQs', title: 'Do Not Disturb',     artist: 'Drake'                },
-  { id: '',                        ytId: 'ZX_mvoY_Hg0', title: 'Not You Too',        artist: 'Drake, Chris Brown'   },
-  { id: '',                        ytId: 'PMk8L9FNqnY', title: 'Over My Dead Body',  artist: 'Drake'                },
-  { id: '',                        ytId: 'Fg1yLqL8clo', title: 'Fortworth',          artist: 'Drake'                },
-  { id: '',                        ytId: 'rThDEqJsRtk', title: 'Make Them Know',     artist: 'Drake'                },
-];
+const NOW_PLAYING = {
+  title:  'Avril 14th',
+  artist: 'Aphex Twin',
+  album:  'Drukqs',
+  // album-art placeholder — duotone gradient
+  bgFrom: '#caa15f',
+  bgTo:   '#5e3c1c',
+  progress: 0.42, // 0..1
+};
 
-function RecordPlayer() {
-  const [artMap, setArtMap]   = useState({});
-  const [idx, setIdx]         = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [iframeSrc, setIframeSrc] = useState('');
-  const n = RECORD_TRACKS.length;
-
-  // Spotify oEmbed — album art only (skips tracks without a Spotify ID)
-  useEffect(() => {
-    RECORD_TRACKS.forEach(t => {
-      if (!t.id) return;
-      fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${t.id}`)
-        .then(r => r.json())
-        .then(d => setArtMap(m => ({ ...m, [t.id]: d.thumbnail_url })))
-        .catch(() => {});
-    });
-  }, []);
-
-  const track = RECORD_TRACKS[idx];
-  const art   = artMap[track.id];
-
-  const getIframeSrc = (ytId) => {
-    if (!ytId) return '';
-    return `https://www.youtube.com/embed/${ytId}?autoplay=1&playsinline=1&mute=0&rel=0&enablejsapi=0`;
-  };
-
-  const togglePlayback = () => {
-    if (!playing) {
-      setIframeSrc(getIframeSrc(track.ytId));
-    } else {
-      setIframeSrc('');
-    }
-    setPlaying(p => !p);
-  };
-
-  const goTo = (dir) => {
-    setIdx(i => {
-      const next = (i + dir + n) % n;
-      return next;
-    });
-    if (playing) {
-      setIframeSrc(getIframeSrc(RECORD_TRACKS[(idx + dir + n) % n].ytId));
-    }
-  };
-
-  useEffect(() => {
-    if (playing) {
-      setIframeSrc(getIframeSrc(track.ytId));
-    }
-  }, [idx]);
-
+function NowPlaying() {
   return (
-    <div className="lp-record">
-      {iframeSrc && (
-        <iframe
-          key={iframeSrc}
-          src={iframeSrc}
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
-          style={{
-            position: 'fixed',
-            bottom: 0,
-            right: 0,
-            width: 1,
-            height: 1,
-            opacity: 0,
-            pointerEvents: 'none',
-          }}
-          title="Record player audio"
-        />
-      )}
-      <div className="lp-record-row">
-        <button className="lp-record-nav" onClick={() => goTo(-1)} aria-label="Previous track">
-          &#8249;
-        </button>
-        <button
-          className="lp-record-disc-btn"
-          onClick={togglePlayback}
-          aria-label={playing ? 'Pause' : 'Play'}
-        >
-          <div
-            className="lp-record-disc"
-            data-playing={playing || undefined}
-            style={art ? { backgroundImage: `url(${art})` } : undefined}
-          />
-        </button>
-        <button className="lp-record-nav" onClick={() => goTo(1)} aria-label="Next track">
-          &#8250;
-        </button>
+    <div className="lp-np">
+      <div className="lp-np-head">
+        <svg className="lp-np-spotify" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.47a.62.62 0 0 1-.86.21c-2.35-1.43-5.3-1.76-8.78-.97a.63.63 0 0 1-.27-1.22c3.81-.86 7.08-.49 9.7 1.12.3.18.4.57.21.86zm1.22-2.72a.78.78 0 0 1-1.08.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 0 1-.45-1.5c3.63-1.1 8.15-.56 11.24 1.33.36.22.48.7.26 1.08zm.1-2.83c-3.23-1.92-8.56-2.1-11.64-1.16a.94.94 0 0 1-.55-1.8c3.54-1.07 9.42-.86 13.13 1.34.44.27.59.85.32 1.29-.27.44-.84.59-1.26.33z"/>
+        </svg>
+        <span>now playing</span>
+        <div className="lp-np-eq" aria-hidden="true">
+          <span /><span /><span />
+        </div>
       </div>
-      <div className="lp-record-meta">
-        <div className="lp-record-title">{track.title}</div>
-        <div className="lp-record-artist">{track.artist}</div>
+
+      <div className="lp-np-row">
+        <div
+          className="lp-np-vinyl"
+          style={{
+            '--np-from': NOW_PLAYING.bgFrom,
+            '--np-to':   NOW_PLAYING.bgTo,
+          }}
+          aria-hidden="true"
+        >
+          <div className="lp-np-vinyl-grooves" />
+          <div className="lp-np-vinyl-hole" />
+        </div>
+        <div className="lp-np-meta">
+          <div className="lp-np-title" title={NOW_PLAYING.title}>{NOW_PLAYING.title}</div>
+          <div className="lp-np-artist" title={NOW_PLAYING.artist}>{NOW_PLAYING.artist}</div>
+        </div>
+      </div>
+
+      <div className="lp-np-bar">
+        <div className="lp-np-bar-fill" style={{ width: (NOW_PLAYING.progress * 100) + '%' }} />
       </div>
     </div>
   );
@@ -228,7 +162,7 @@ function Taskbar({ active, onChange }) {
         ))}
       </nav>
 
-      <RecordPlayer />
+      <NowPlaying />
 
       <div className="lp-side-foot">
         <div className="lp-side-foot-row">
